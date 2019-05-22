@@ -1,0 +1,89 @@
+<settings>
+  	<servers>
+		<server>
+			<id>nexus</id>
+			<username>admin</username>
+			<password>infynexus</password>
+			<configuration>
+				<httpConfiguration>
+					<all>
+						<params>
+							<param>
+								<name>http.authentication.preemptive</name>
+								<value>%b,true</value>
+							</param>
+						</params>
+					</all>
+				</httpConfiguration>
+				
+				<httpHeaders>
+					<property>
+						<name>username</name>
+						<value>admin</value>
+					</property>
+				</httpHeaders>
+			</configuration>
+		</server>
+		<server>
+			<id>deployment</id>
+			<username>admin</username>
+			<password>infynexus</password>
+			
+		</server>
+		
+		
+	</servers>
+  
+  <mirrors>
+    <mirror>
+      <!--This sends everything else to /public -->
+      <id>nexus</id>
+      <mirrorOf>*</mirrorOf>
+      <url>http://infynexus/nexus/content/groups/ToolsGroup/</url>
+    </mirror>
+  </mirrors>
+  <profiles>
+   <profile>
+            <id>sonar</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <!-- Optional URL to server. Default value is http://localhost:9000 -->
+                <sonar.host.url>
+                  http://infysonarqube:8080
+                </sonar.host.url>
+            </properties>
+        </profile>
+    <profile>
+      <id>nexus</id>
+      <!--Enable snapshots for the built in central repo to direct -->
+      <!--all requests to nexus via the mirror -->
+      <repositories>
+        <repository>
+          <id>central</id>
+          <url>http://central</url>
+          <releases><enabled>true</enabled></releases>
+          <snapshots><enabled>true</enabled></snapshots>
+        </repository>
+      </repositories>
+     <pluginRepositories>
+        <pluginRepository>
+          <id>central</id>
+          <url>http://central</url>
+          <releases><enabled>true</enabled></releases>
+          <snapshots><enabled>true</enabled></snapshots>
+        </pluginRepository>
+      </pluginRepositories>
+      <properties>
+              <archetypeCatalog>http://infynexus/nexus/content/groups/PUBLIC_REPO/</archetypeCatalog>
+      </properties>
+
+	  
+    </profile>
+  </profiles>
+  <activeProfiles>
+    <!--make the profile active all the time -->
+    <activeProfile>nexus</activeProfile>
+  </activeProfiles>
+</settings>
